@@ -161,19 +161,41 @@ def calcular_comision(tabla, indicador, meta, logro, venta_total):
         return 0, 0, 0
 
 # --- INTERFAZ STREAMLIT ---
-st.title("💸 Simulador de Comisiones - Hurley & Nava")
+st.title("📊 Simulador de Comisiones Dinegma")
 
-cargo = st.selectbox("Cargo", ["Asesor", "Administrador"])
-tipo_tienda = st.selectbox("Tipo de tienda", ["Tipo A", "Tipo B"])
-venta = st.number_input("Venta total realizada (Q)", min_value=0.0)
+# Clasificación de tiendas
+TIENDAS_TIPO_A = ["Hurley Oakland", "Nava Oakland", "Nava Videre"]
+TIENDAS_TIPO_B = ["Hurley Naranjo", "Hurley Antigua", "Hurley Escuintla", "Nava Portales"]
 
-st.subheader("Indicadores")
+# Nombre de asesor
+nombre = st.text_input("Nombre del asesor o colaborador")
+
+# Cargo
+cargo = st.selectbox("Selecciona tu cargo", ["Asesor", "Administrador"])
+
+# Tienda
+tienda = st.selectbox("Selecciona tu tienda", TIENDAS_TIPO_A + TIENDAS_TIPO_B)
+
+# Determinar tipo automáticamente
+if tienda in TIENDAS_TIPO_A:
+    tipo_tienda = "Tipo A"
+elif tienda in TIENDAS_TIPO_B:
+    tipo_tienda = "Tipo B"
+else:
+    tipo_tienda = "Desconocido"
+
+st.success(f"🧍 {nombre} - Cargo: {cargo} - Tienda: {tienda}")
+st.info(f"📌 Esta tienda es clasificada como: {tipo_tienda}")
+
+venta = st.number_input("Venta total lograda (Q)", min_value=0.0)
+
+st.subheader("📥 Ingreso de Datos")
 cols = st.columns(4)
 indicadores = {}
 for i, indicador in enumerate(["PPTO", "VxF", "AxF", "Fidelizacion"]):
     with cols[i]:
-        meta = st.number_input(f"Meta {indicador}", min_value=0.0, key=f"meta_{indicador}")
-        logro = st.number_input(f"Logrado {indicador}", min_value=0.0, key=f"logro_{indicador}")
+        meta = st.number_input(f"Meta de {indicador}", min_value=0.0, key=f"meta_{indicador}")
+        logro = st.number_input(f"Logro de {indicador}", min_value=0.0, key=f"logro_{indicador}")
         indicadores[indicador] = (meta, logro)
 
 # --- SELECCIÓN DE TABLA DE COMISIONES ---
@@ -191,12 +213,6 @@ else:
 
 # --- CÁLCULO ---
 if st.button("Calcular Comisión"):
-    st.subheader("🔎 Verificación de parámetros seleccionados")
-    st.markdown(f"- **Cargo seleccionado:** {cargo}")
-    st.markdown(f"- **Tipo de tienda:** {tipo_tienda}")
-    st.markdown("- **Ejemplo de variable de tabla:**")
-    st.json(tabla["PPTO"][0])  # Mostrar el primer tramo para verificar tabla
-
     st.subheader("📋 Comisión por Indicador")
     total = 0
     for indicador, (meta, logro) in indicadores.items():
@@ -206,3 +222,7 @@ if st.button("Calcular Comisión"):
 
     st.markdown("---")
     st.success(f"💰 **Comisión Total: Q{round(total, 2)}**")
+
+# --- FOOTER ---
+st.markdown("<hr style='margin-top: 50px; margin-bottom: 10px;'>", unsafe_allow_html=True)
+st.markdown("<div style='text-align: center; opacity: 0.5;'>Desarrollado por Edgar Urrutia — Proyecto Formación — Dinegma 2025</div>", unsafe_allow_html=True)
