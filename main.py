@@ -225,4 +225,3 @@ if st.button("Calcular Comisión"):
 
 # --- FOOTER ---
 st.markdown("<hr style='margin-top: 50px; margin-bottom: 10px;'>", unsafe_allow_html=True)
-st.markdown("<div style='text-align: center; opacity: 0.5;'>Desarrollado por Edgar Urrutia — Proyecto Formación — Dinegma 2025</div>", unsafe_allow_html=True)
