@@ -161,7 +161,7 @@ def calcular_comision(tabla, indicador, meta, logro, venta_total):
         return 0, 0, 0
 
 # --- INTERFAZ STREAMLIT ---
-st.title("📊 Simulador de Comisiones Dinegma")
+st.title("📊 Simulador de Comisiones")
 
 # Clasificación de tiendas
 TIENDAS_TIPO_A = ["Hurley Oakland", "Nava Oakland", "Nava Videre"]
